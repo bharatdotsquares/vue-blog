@@ -1,6 +1,6 @@
 <template>
-  <VueSlickCarousel :arrows="false" :dots="true" :slidesToShow="3">
-    <div>
+  <VueSlickCarousel :arrows="false" :dots="true" :slidesToShow="slidesToShow">
+    <div v-for="post in posts">
       <div class="banner-content-main">
         <span class="fs-6 has-line">Interior</span>
         <h4>
@@ -25,6 +25,14 @@
   </VueSlickCarousel>
 </template>
 
+<script setup>
+ defineProps({
+    posts: {
+      type: Object,
+      required: true
+    }
+  })
+</script>
 <script>
 import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";

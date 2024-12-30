@@ -1,10 +1,10 @@
 <script setup>
 const routes = [
-  { name: "Home" },
-  { name: "Travel" },
-  { name: "Food" },
-  { name: "Lifestyle" },
-  { name: "Fashion" }
+  { name: "home" },
+  { name: "travel" },
+  { name: "food" },
+  { name: "lifestyle" },
+  { name: "fashion" }
 ];
 </script>
 
@@ -40,7 +40,7 @@ const routes = [
         <div class="main-menu d-none d-lg-flex">
           <ul class="main-menu-items list-unstyled">
             <li v-for="route in routes" :key="route.name">
-              <router-link :to="{ name: 'Detail' }" class="main-menu-item">
+              <router-link :to="`/posts/tag/${route.name}`" class="main-menu-item">
                 {{ route.name }}
               </router-link>
             </li>

@@ -1,5 +1,5 @@
 <template>
-  <div class="col-lg-6 col-md-6" v-for="post in posts" :key="post.title">
+  <div class="col-lg-6 col-md-6" v-for="post in posts.splice(0,limit)" :key="post.id">
     <div class="blog-item blog-item-sm">
       <div class="blog-item-image">
         <a href="details">
@@ -7,15 +7,16 @@
         </a>
       </div>
       <div class="blog-item-info">
-        <span class="fs-6 has-line">Travels</span>
+        <span class="fs-6 has-line">{{post.tags.join(", ").toUpperCase()}}</span>
         <h5>
-          <a href="details">Top 10 beautiful Place in Bangladesh</a>
+          <RouterLink :to="`details/${post.id}`" >{{post.title}}</RouterLink>
         </h5>
+        
         <div class="blog-item-info-release">
-          <span>March 25, 2021</span> <span class="dot"></span>
-          <span>4 min read</span>
+          <span>{{  formatDate(new Date())}}</span> <span class="dot"></span>
+          <span>{{minuteRead(post.body)}} min read</span>
         </div>
-        <a href="details" class="btn btn-link"
+        <RouterLink :to="`details/${post.id}`" class="btn btn-link"
           >Read Article
           <svg
             width="18"
@@ -32,29 +33,39 @@
               stroke-linejoin="round"
             ></path>
           </svg>
-        </a>
+        </RouterLink>
       </div>
     </div>
   </div>
 </template>
 
-<script>
- import PostService from "@/services/post.service"
-export default {
-  name: "AllPost",
-  data() {
-    return {
-      posts: []
-    }
-  },
-  mixins: [
-    PostService
-  ],
 
-  methods: {
-    async init () {
-      await  this.getAllPosts()
+<script setup>
+  defineProps({
+    posts:{
+      type: Array,
+      required: true
     },
-  }
-};
+    limit:{
+      type: Number,
+      default: 3
+    }
+  })
+</script>
+<script> 
+ import { RouterLink } from "vue-router";
+ const months = ["Jan", "Feb", "Mar", "Apr", "May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  export default {
+    methods: {
+      formatDate(date) {
+        return `${date.getDate()} ${months[date.getMonth()-1]}  ${date.getFullYear()}`
+      },
+      minuteRead(description) {
+          const words = description.match(/\b\w+\b/g);
+          const wordCount = words? words.length : 0;
+          return Math.ceil(wordCount / 50); // assuming average word length is 20 characters
+      }
+    }
+  };
 </script>

@@ -15,7 +15,7 @@
         <div class="col-lg-6">
           <div class="banner-slider">
             <div class="banner-content">
-              <component :is="VueSlickCarousel" />
+              <!-- <VueSlickCarousel :posts="posts"  /> -->
             </div>
           </div>
         </div>
@@ -33,9 +33,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-4" v-for="i in 5" :key="i">
-          <component :is="RecentPost" />
-        </div>
+        <RecentPost :posts="posts" :limit="5" />
       </div>
     </div>
   </section>
@@ -50,9 +48,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-4 col-md-6">
-          <component :is="LatestPost" />
-        </div>
+        <LatestPost :posts="posts" :limit="5" />
       </div>
     </div>
   </section>
@@ -67,10 +63,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-6 col-md-6">
-          <!-- <FeaturedPost></FeaturedPost> -->
-          <component :is="FeaturedPost" />
-        </div>
+        <FeaturedPost :posts="posts" :limit="5" />
       </div>
     </div>
   </section>
@@ -87,18 +80,17 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="row">
-            <component :is="AllPost" />
+            <AllPost :posts="posts" :limit="3" />
           </div>
         </div>
         <div class="col-lg-12 mt-4 mt-lg-0">
           <div class="featured-category">
             <h6>Featured Category</h6>
-
-            <component :is="FeaturedCategory" />
+            <FeaturedCategory :tags="tags" :limit="3" />
           </div>
           <div class="all-tags">
             <h6>All Tags</h6>
-            <component :is="AllTags" />
+            <AllTags :tags="tags" :limit="10" />
           </div>
         </div>
       </div>
@@ -115,37 +107,29 @@ import LatestPost from "@/components/LatestPost.vue";
 import AllPost from "@/components/AllPost.vue";
 import FeaturedCategory from "@/components/FeaturedCategory.vue";
 import AllTags from "@/components/AllTags.vue";
+import PostService from "@/services/post.service";
 export default {
   name: "Home",
   components: {
     VueSlickCarousel,
-    FeaturedPost,
+    AllPost,
     RecentPost,
+    FeaturedPost,
     LatestPost,
     FeaturedCategory,
     AllTags
   },
-  computed: {
-    LatestPost() {
-      return LatestPost;
-    },
-    FeaturedPost() {
-      return FeaturedPost;
-    },
-    VueSlickCarousel() {
-      return VueSlickCarousel;
-    },
-    RecentPost() {
-      return RecentPost;
-    },
-    AllPost() {
-      return AllPost;
-    },
-    FeaturedCategory() {
-      return FeaturedCategory;
-    },
-    AllTags() {
-      return AllTags;
+  mixins: [PostService],
+  computed:{
+    FeaturedPost:()=>FeaturedPost
+  },
+  mounted() {
+    this.init();
+  },
+  methods: {
+    async init() {
+      await this.getAllPosts();
+      await this.getTags();
     }
   }
 };

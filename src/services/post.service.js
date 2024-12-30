@@ -1,8 +1,10 @@
+let ENDPOINT = import.meta.env.VITE_ENDPOINT
 export default {
     data(){
         return{
             posts: [],
             post: {},
+            tags: [],
             pagination: {
                 currentPage: 1,
                 itemsPerPage: 10
@@ -15,15 +17,16 @@ export default {
     methods: {
         async getAllPosts(){
             try{
-                const response = await this.axios.get(`${ENDPOINT}/posts`)
-                this.posts = response.data
+                const response = await this.axios.get(`${ENDPOINT}`)
+                console.log(response)
+                this.posts = response.data.posts
             }catch(error){
                 console.error(error)
             }
         },
         async getPostById(id){
             try{
-                const response = await this.axios.get(`${ENDPOINT}/posts/${id}`)
+                const response = await this.axios.get(`${ENDPOINT}/${id}`)
                 this.post = response.data
             }catch(error){
                 console.error(error)
@@ -39,6 +42,25 @@ export default {
             }catch(error){
                 console.error(error)
             }
-        }
+        },
+
+        // Tags
+        async getTags(){
+            try{
+                const response = await this.axios.get(`${ENDPOINT}/tags`)
+                this.tags = response.data
+            }catch(error){
+                console.error(error)
+            }
+        },
+
+        async getPostByTag(tag){
+            try{
+                const response = await this.axios.get(`${ENDPOINT}/tag/${tag}`)
+                this.posts = response.data.posts
+            }catch(error){
+                console.error(error)
+            }
+        },
     }
 }

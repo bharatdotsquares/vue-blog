@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory, createWebHistory } from "vue-router"
 import Home from "@/views/HomePage.vue"
 import Detail from "@/views/DetailsPage.vue"
+import PostByTag from "@/views/PostByTag.vue"
 const routes = [
     {
         path:"/",
@@ -8,9 +9,14 @@ const routes = [
         component: Home
     },
     {
-        path:"/details",
-        name:"Detail",
+        path:"/details/:postid",
+        name:"Details",
         component: Detail
+    },
+    {
+        path:"/posts/tag/:slug",
+        name:"PostByTag",
+        component: PostByTag
     }
 ]
 
