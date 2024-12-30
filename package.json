@@ -1,0 +1,28 @@
+{
+  "name": "blog",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint:fix": "eslint ./src --ext .js,.vue --fix",
+    "lint:test": "tsc --noEmit --incremental --watch",
+    "prettier": "prettier --check **/*.vue",
+    "prettier:fix": "prettier --write **/*.vue"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "vue": "^3.5.13",
+    "vue-axios": "^3.5.2",
+    "vue-router": "^4.5.0",
+    "vue-slick": "^1.2.0",
+    "vue-slick-carousel": "^1.0.6",
+    "vue-sweetalert2": "^5.0.11"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "vite": "^6.0.5"
+  }
+}
